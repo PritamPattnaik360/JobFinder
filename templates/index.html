@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Job Scraper</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Plotly JavaScript library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #007bff;
+        }
+        h5 {
+            margin: 30px;
+            text-align: center;
+            color: #000000;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        .form-control {
+            margin-bottom: 20px;
+        }
+        #scrape-button {
+            width: 100%;
+        }
+        #loading-text {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            color: #007bff;
+        }
+        .plot-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LinkedIn Job Scraper</h1>
+        <h5 text="bold">Created By Pritam Pattnaik</h5>
+        <form id="scrape-form" method="post" action="/">
+            <div class="form-group">
+                <label for="title">Job Title:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="times">Number of Times to Scrape:</label>
+                <input type="number" id="times" name="times" min="1" class="form-control" required>
+            </div>
+            <button type="submit" id="scrape-button" class="btn btn-primary">Scrape</button>
+            <div id="loading-text">Loading...</div>
+        </form>
+    </div>
+        {% if plot_div %}
+        <div class="plot-container">
+            <h2 class="text-center">Distribution of Job Titles</h2>
+            <div id="plotly_chart">{{ plot_div | safe }}</div>
+        </div>
+        {% endif %}
+        
+        {% if table %}
+        <div class="plot-container">
+            <h2 class="text-center">Scraped Data</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    {{ table | safe }}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    
+    <script>
+        document.getElementById('scrape-form').addEventListener('submit', function() {
+            document.getElementById('scrape-button').style.display = 'none';
+            document.getElementById('loading-text').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
